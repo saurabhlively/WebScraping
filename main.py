@@ -1,3 +1,5 @@
+import time
+
 import requests
 import selectorlib
 from sendemail import send_email
@@ -27,15 +29,17 @@ def read(extracted):
     with open("data.txt","r") as file:
         return file.read()
 
+"""Running non stop"""
 if __name__ == "__main__":
-    scraped = scrap(URL)
-    extracted = extract(scraped)
-    print(extracted)
-    content = read(extracted)
-    if extracted != "No upcoming tours":
-        if extracted not in content:
-            store(extracted)
-            send_email(message="Hey Saurabh! New event was found")
-
+    while True:
+        scraped = scrap(URL)
+        extracted = extract(scraped)
+        print(extracted)
+        content = read(extracted)
+        if extracted != "No upcoming tours":
+            if extracted not in content:
+                store(extracted)
+                send_email(message="Hey Saurabh! New event was found")
+        time.sleep(2)
 
 
